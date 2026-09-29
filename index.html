@@ -566,7 +566,14 @@ function save() {
 function load() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) { projects = JSON.parse(raw); return true; }
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      // Basic sanity check — must be a non-empty array of objects
+      if (Array.isArray(parsed) && parsed.every(p => p && typeof p === 'object')) {
+        projects = parsed;
+        return true;
+      }
+    }
   } catch(e) {}
   return false;
 }
