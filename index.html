@@ -379,6 +379,7 @@ body {
   </div>
   <div class="topbar-right">
     <button class="btn btn-outline btn-sm" onclick="window.print()">Print / Export PDF</button>
+    <button class="btn btn-outline btn-sm" onclick="clearAllData()" title="Reset all data">Reset</button>
     <button class="btn btn-solid btn-sm" onclick="openNewProjectModal()">+ New Project</button>
   </div>
 </div>
@@ -538,7 +539,7 @@ body {
   </div>
   <div class="task-panel-footer">
     <button class="btn btn-outline btn-sm" style="color:var(--text-2);border-color:var(--border)" onclick="exportCSV()">Export CSV</button>
-    <button class="btn btn-dark btn-sm" style="flex:1" onclick="closeTaskPanel();renderDetail(activeProjectId)">Update Plan</button>
+    <button class="btn btn-dark btn-sm" style="flex:1" onclick="closeTaskPanel();renderDetail(activeProjectId);save()">Update Plan</button>
   </div>
 </div>
 
@@ -556,6 +557,25 @@ let modalMembers    = [];   // temp members while modal open
 //  HELPERS
 // ══════════════════════════════════════════════════
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+// ── Persistence ──
+const STORAGE_KEY = 'project-monitor-v1';
+function save() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(projects)); } catch(e) {}
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) { projects = JSON.parse(raw); return true; }
+  } catch(e) {}
+  return false;
+}
+function clearAllData() {
+  if (!confirm('Reset everything? This will delete all projects and tasks.')) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  projects = []; activeProjectId = null;
+  renderSummary(); renderLeftPanel(); renderOverview();
+}
 function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function v(id)  { return document.getElementById(id).value; }
 function pad(n) { return String(n).padStart(2,'0'); }
@@ -937,6 +957,7 @@ function saveProject() {
   } else if (!activeProjectId) {
     renderOverview();
   }
+  save();
 }
 
 function deleteProject(id) {
@@ -944,6 +965,7 @@ function deleteProject(id) {
   projects = projects.filter(x=>x.id!==id);
   if (activeProjectId === id) { activeProjectId = null; renderOverview(); }
   renderSummary(); renderLeftPanel();
+  save();
 }
 
 // ══════════════════════════════════════════════════
@@ -1008,6 +1030,7 @@ function saveTask() {
   clearTaskForm();
   renderTaskPanel();
   renderSummary();
+  save();
 }
 
 function deleteTask(i) {
@@ -1017,6 +1040,7 @@ function deleteTask(i) {
   if (editingTaskIdx===i) { editingTaskIdx=-1; clearTaskForm(); }
   renderTaskPanel();
   renderSummary();
+  save();
 }
 
 function renderTaskPanel() {
@@ -1066,6 +1090,14 @@ function exportCSV() {
 //  INIT — sample data
 // ══════════════════════════════════════════════════
 (function init() {
+  // ── Restore from localStorage; seed sample data only on first run ──
+  if (load()) {
+    renderSummary();
+    renderLeftPanel();
+    renderOverview();
+    return;
+  }
+
   const today = new Date();
 
   function makeProject(overrides) {
@@ -1135,6 +1167,7 @@ function exportCSV() {
   });
 
   projects = [p1, p2, p3];
+  save();
   renderSummary();
   renderLeftPanel();
   renderOverview();
