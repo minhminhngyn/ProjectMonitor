@@ -1,0 +1,78 @@
+﻿{
+  "projects": [
+    {
+      "id": "p1",
+      "customer": "Yuan Yu / Securities",
+      "name": "Yuanta Trading App & Data Visualization",
+      "ref": "T-20220040",
+      "status": "In Progress",
+      "priority": "High",
+      "startDate": "2026-09-29",
+      "endDate": "2027-01-27",
+      "team": ["Yuan Yu / SBS", "Dev Team", "Data Team", "QA Team"],
+      "milestones": [],
+      "tasks": [
+        {"sow":"1.0","wbs":"1.0","level":"0","title":"Project Initiation & Requirements Gathering","owner":"","startDate":"2026-09-29","endDate":"2026-10-13","status":"In Progress","dependency":"","notes":""},
+        {"sow":"1","wbs":"1.1","level":"1","title":"SoW Sign-off & Project Kickoff","owner":"Yuan Yu / SBS","startDate":"2026-09-29","endDate":"2026-10-06","status":"Completed","dependency":"","notes":""},
+        {"sow":"1","wbs":"1.2","level":"1","title":"Business Requirements Workshop","owner":"Yuan Yu / SBS","startDate":"2026-10-02","endDate":"2026-10-09","status":"In Progress","dependency":"1.1","notes":""},
+        {"sow":"1","wbs":"1.3","level":"1","title":"UI/UX Specification & Module Delivery","owner":"Dev Team","startDate":"2026-10-06","endDate":"2026-10-20","status":"In Progress","dependency":"1.2","notes":"Requires client design guidelines"},
+        {"sow":"1","wbs":"1.4","level":"1","title":"Design Review & Final Sign-off","owner":"Yuan Yu","startDate":"2026-10-17","endDate":"2026-10-27","status":"To Be Started","dependency":"1.3","notes":""},
+        {"sow":"2.0","wbs":"2.0","level":"0","title":"Module II: Data Visualisation Development","owner":"","startDate":"2026-10-13","endDate":"2026-11-24","status":"To Be Started","dependency":"","notes":""},
+        {"sow":"2","wbs":"2.1","level":"1","title":"UI Development","owner":"Dev Team","startDate":"2026-10-13","endDate":"2026-10-27","status":"To Be Started","dependency":"1.4","notes":""},
+        {"sow":"2","wbs":"2.2","level":"1","title":"API Development","owner":"Dev Team","startDate":"2026-10-20","endDate":"2026-11-03","status":"To Be Started","dependency":"2.1","notes":""},
+        {"sow":"2","wbs":"2.3","level":"1","title":"Data Preparation","owner":"Data Team","startDate":"2026-10-20","endDate":"2026-11-10","status":"To Be Started","dependency":"2.2","notes":""},
+        {"sow":"2","wbs":"2.4","level":"1","title":"Integration Testing","owner":"Dev Team","startDate":"2026-11-10","endDate":"2026-11-17","status":"To Be Started","dependency":"2.3","notes":""},
+        {"sow":"3.0","wbs":"3.0","level":"0","title":"Modules 2-3: Content Widgets Development","owner":"","startDate":"2026-10-27","endDate":"2026-12-22","status":"To Be Started","dependency":"","notes":""},
+        {"sow":"3","wbs":"3.1","level":"1","title":"React Native Widget UI Development","owner":"Dev Team","startDate":"2026-10-27","endDate":"2026-11-10","status":"To Be Started","dependency":"1.4","notes":""},
+        {"sow":"3","wbs":"3.2","level":"1","title":"Company Description & Fundamentals Widgets","owner":"Dev Team","startDate":"2026-11-03","endDate":"2026-11-24","status":"To Be Started","dependency":"1.4","notes":""},
+        {"sow":"3","wbs":"3.3","level":"1","title":"API Development & Integration","owner":"Dev Team","startDate":"2026-11-10","endDate":"2026-12-08","status":"To Be Started","dependency":"3.2","notes":""},
+        {"sow":"4.0","wbs":"4.0","level":"0","title":"Quality Assurance, UAT & Go-live","owner":"","startDate":"2026-12-08","endDate":"2027-01-12","status":"To Be Started","dependency":"","notes":""},
+        {"sow":"4","wbs":"4.1","level":"1","title":"Ready for UAT & Final Testing","owner":"Yuan Yu / SBS","startDate":"2026-12-08","endDate":"2026-12-22","status":"To Be Started","dependency":"3.5","notes":""},
+        {"sow":"4","wbs":"4.2","level":"1","title":"Go-live on Yuanta Trading App","owner":"Yuan Yu","startDate":"2026-12-22","endDate":"2026-12-29","status":"To Be Started","dependency":"4.1","notes":"Unblock production deployment"}
+      ]
+    },
+    {
+      "id": "p2",
+      "customer": "Acme Corp",
+      "name": "Corporate Website Redesign",
+      "ref": "PO-2026-001",
+      "status": "At Risk",
+      "priority": "High",
+      "startDate": "2026-08-30",
+      "endDate": "2026-11-28",
+      "team": ["Alice Chen", "Bob Rivera", "Carol Smith"],
+      "milestones": [],
+      "tasks": [
+        {"sow":"1.0","wbs":"1.0","level":"0","title":"Discovery & Design","owner":"","startDate":"2026-08-30","endDate":"2026-09-19","status":"Completed","dependency":"","notes":""},
+        {"sow":"1","wbs":"1.1","level":"1","title":"Stakeholder Interviews","owner":"Alice Chen","startDate":"2026-08-30","endDate":"2026-09-09","status":"Completed","dependency":"","notes":""},
+        {"sow":"1","wbs":"1.2","level":"1","title":"Wireframes & Prototypes","owner":"Bob Rivera","startDate":"2026-09-09","endDate":"2026-09-19","status":"Completed","dependency":"1.1","notes":""},
+        {"sow":"2.0","wbs":"2.0","level":"0","title":"Development","owner":"","startDate":"2026-09-19","endDate":"2026-11-08","status":"At Risk","dependency":"","notes":""},
+        {"sow":"2","wbs":"2.1","level":"1","title":"Frontend Development","owner":"Carol Smith","startDate":"2026-09-19","endDate":"2026-10-19","status":"Off Track","dependency":"1.2","notes":"Behind schedule - 3 days delayed"},
+        {"sow":"2","wbs":"2.2","level":"1","title":"CMS Integration","owner":"Bob Rivera","startDate":"2026-10-09","endDate":"2026-11-03","status":"To Be Started","dependency":"2.1","notes":""},
+        {"sow":"3.0","wbs":"3.0","level":"0","title":"QA & Launch","owner":"","startDate":"2026-11-03","endDate":"2026-11-28","status":"To Be Started","dependency":"","notes":""},
+        {"sow":"3","wbs":"3.1","level":"1","title":"UAT & Bug Fixes","owner":"Alice Chen","startDate":"2026-11-03","endDate":"2026-11-18","status":"To Be Started","dependency":"2.2","notes":""},
+        {"sow":"3","wbs":"3.2","level":"1","title":"Go Live","owner":"Carol Smith","startDate":"2026-11-18","endDate":"2026-11-28","status":"To Be Started","dependency":"3.1","notes":""}
+      ]
+    },
+    {
+      "id": "p3",
+      "customer": "Meridian Logistics",
+      "name": "ERP System Migration",
+      "ref": "ERP-2026-03",
+      "status": "Planning",
+      "priority": "Critical",
+      "startDate": "2026-10-13",
+      "endDate": "2027-03-28",
+      "team": ["David Park", "Eva Wong", "Frank Lee"],
+      "milestones": [],
+      "tasks": [
+        {"sow":"1.0","wbs":"1.0","level":"0","title":"Assessment & Planning","owner":"","startDate":"2026-10-13","endDate":"2026-11-10","status":"To Be Started","dependency":"","notes":""},
+        {"sow":"1","wbs":"1.1","level":"1","title":"Current System Audit","owner":"David Park","startDate":"2026-10-13","endDate":"2026-10-27","status":"To Be Started","dependency":"","notes":""},
+        {"sow":"1","wbs":"1.2","level":"1","title":"Migration Strategy & Plan","owner":"Eva Wong","startDate":"2026-10-27","endDate":"2026-11-10","status":"To Be Started","dependency":"1.1","notes":""},
+        {"sow":"2.0","wbs":"2.0","level":"0","title":"Data Migration","owner":"","startDate":"2026-11-10","endDate":"2027-01-27","status":"To Be Started","dependency":"","notes":""},
+        {"sow":"2","wbs":"2.1","level":"1","title":"Data Cleansing","owner":"Frank Lee","startDate":"2026-11-10","endDate":"2026-12-08","status":"To Be Started","dependency":"1.2","notes":""},
+        {"sow":"2","wbs":"2.2","level":"1","title":"Pilot Migration","owner":"David Park","startDate":"2026-12-08","endDate":"2027-01-07","status":"To Be Started","dependency":"2.1","notes":""}
+      ]
+    }
+  ]
+}
