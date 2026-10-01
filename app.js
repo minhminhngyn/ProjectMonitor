@@ -1,12 +1,57 @@
 // ---------- state ----------
+const API_URL = 'https://script.google.com/a/macros/labci.com/s/AKfycbw78l5llGaA6vYlcOYAPoza-RFz7sl9IAroQETy178FwZWyAOD5wPreiu8FN4Mb9NUt/exec';
 const STORE_KEY = 'pm_projects_v1';
 let projects = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
 let activeProjectId = projects[0] ? projects[0].id : null;
 let editingProjectId = null;
 let editingTaskId = null;
 let teamDraft = [];
+let cloudReady = false;   // chỉ ghi lên Sheet sau khi đã đọc thành công
+let saveTimer = null;
 
-function save() { localStorage.setItem(STORE_KEY, JSON.stringify(projects)); }
+function save() {
+  localStorage.setItem(STORE_KEY, JSON.stringify(projects)); // bản lưu tạm trên máy
+  if (!cloudReady) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(pushToCloud, 400);
+}
+
+async function pushToCloud() {
+  try {
+    await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(projects)
+    });
+  } catch (err) {
+    console.error('Save failed', err);
+    alert('Không lưu được lên Google Sheet. Kiểm tra kết nối mạng.');
+  }
+}
+
+async function loadFromCloud() {
+  try {
+    const res = await fetch(API_URL);
+    const cloud = await res.json();
+    if (!Array.isArray(cloud)) throw new Error('Bad data');
+    cloudReady = true;
+    if (cloud.length === 0 && projects.length > 0) {
+      // Sheet đang trống mà máy này có dữ liệu: đẩy dữ liệu local lên
+      pushToCloud();
+    } else {
+      projects = cloud;
+      localStorage.setItem(STORE_KEY, JSON.stringify(projects));
+      if (!getProject(activeProjectId)) {
+        activeProjectId = projects[0] ? projects[0].id : null;
+      }
+      renderSidebar();
+      renderDetail();
+    }
+  } catch (err) {
+    console.error('Load failed', err);
+    alert('Không tải được dữ liệu từ Google Sheet. Đang dùng dữ liệu tạm trên máy, sẽ chưa đồng bộ.');
+  }
+}
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
 function getProject(id) { return projects.find(p => p.id === id); }
 
@@ -542,4 +587,5 @@ document.getElementById('btnEmptyNewProject').addEventListener('click', () => op
 
 // ---------- init ----------
 renderSidebar();
-renderDetail();
+renderDetail();      // hiện ngay dữ liệu tạm trên máy
+loadFromCloud();     // rồi tải dữ liệu thật từ Google Sheet
