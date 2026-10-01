@@ -1,5 +1,5 @@
 // ---------- state ----------
-const API_URL = 'https://script.google.com/a/macros/labci.com/s/AKfycbw78l5llGaA6vYlcOYAPoza-RFz7sl9IAroQETy178FwZWyAOD5wPreiu8FN4Mb9NUt/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbz_ImUa7ObnL9vWD1oqiMUQR-Il39k0cJfr78RzNvrPLTVRF248gEyuUB26bFu9WlZZZw/exec';
 const STORE_KEY = 'pm_projects_v1';
 let projects = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
 let activeProjectId = projects[0] ? projects[0].id : null;
