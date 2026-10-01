@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Monitor</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <span class="topbar-title">Project Monitor</span>
+    <span class="topbar-sub">track scope, schedule &amp; status</span>
+  </div>
+  <div class="topbar-right">
+    <button class="btn btn-outline btn-sm" id="btnExportAll">Export</button>
+    <button class="btn btn-solid" id="btnNewProject">+ New Project</button>
+  </div>
+</div>
+
+<div class="shell">
+  <div class="left-panel">
+    <div class="left-panel-head">
+      <span>Projects</span>
+    </div>
+    <div style="padding:10px 12px 0;">
+      <select id="filterStatus" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:var(--radius);font-size:.72rem;background:var(--bg);">
+        <option value="">All statuses</option>
+        <option>Planning</option>
+        <option>In Progress</option>
+        <option>On Track</option>
+        <option>Off Track</option>
+        <option>At Risk</option>
+        <option>Overdue</option>
+        <option>On Hold</option>
+        <option>Completed</option>
+      </select>
+      <select id="sortProjects" style="width:100%;margin-top:6px;padding:6px 8px;border:1px solid var(--border);border-radius:var(--radius);font-size:.72rem;background:var(--bg);">
+        <option value="">Sort: default</option>
+        <option value="priority">Sort: priority</option>
+      </select>
+    </div>
+    <div class="project-list" id="projectList"></div>
+  </div>
+
+  <div class="right-panel" id="rightPanel">
+    <div class="empty">
+      <p>No project selected. Create your first project to get started.</p>
+      <button class="btn btn-dark" id="btnEmptyNewProject">+ New Project</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="projectModalBackdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="projectModalTitle">New Project</h2>
+      <button class="btn-ghost-sm" id="btnCloseProjectModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="projectForm">
+        <div class="field">
+          <label>Customer *</label>
+          <input type="text" id="f-customer" required>
+        </div>
+        <div class="field">
+          <label>Project Title *</label>
+          <input type="text" id="f-title" required>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Reference</label>
+            <input type="text" id="f-reference" placeholder="Optional">
+          </div>
+          <div class="field">
+            <label>Priority</label>
+            <select id="f-priority">
+              <option>High</option>
+              <option selected>Medium</option>
+              <option>Low</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Status</label>
+            <select id="f-status">
+              <option>Planning</option>
+              <option>In Progress</option>
+              <option>On Track</option>
+              <option>Off Track</option>
+              <option>At Risk</option>
+              <option>Overdue</option>
+              <option>On Hold</option>
+              <option>Completed</option>
+            </select>
+          </div>
+          <div></div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Start Date</label>
+            <input type="date" id="f-start">
+          </div>
+          <div class="field">
+            <label>End Date</label>
+            <input type="date" id="f-end">
+          </div>
+        </div>
+        <div class="field">
+          <label>Team Members</label>
+          <div class="chips" id="teamChips"></div>
+          <div class="chip-row">
+            <input type="text" id="f-member-input" placeholder="Member name, press Enter">
+            <button type="button" id="btnAddMember">Add</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Project Overview</label>
+          <textarea id="f-overview" placeholder="Brief description of the project..."></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" style="color:var(--text-2);border-color:var(--border);" id="btnCancelProject">Cancel</button>
+      <button class="btn btn-dark" id="btnSaveProject">Save Project</button>
+    </div>
+  </div>
+</div>
+
+<div class="task-panel" id="taskPanel">
+  <div class="task-panel-header">
+    <h3 id="taskPanelTitle">New Task</h3>
+    <button class="btn-ghost-sm" id="btnCloseTaskPanel">&times;</button>
+  </div>
+  <div class="task-panel-body">
+    <form id="taskForm">
+      <div class="field-row-3">
+        <div class="field">
+          <label>SOW Item *</label>
+          <input type="text" id="t-sow" placeholder="1.0" required>
+        </div>
+        <div class="field">
+          <label>WBS *</label>
+          <input type="text" id="t-wbs" placeholder="1.1" required>
+        </div>
+        <div class="field">
+          <label>Level *</label>
+          <input type="text" id="t-level" placeholder="0" required>
+        </div>
+      </div>
+      <div class="field">
+        <label>Task Name *</label>
+        <input type="text" id="t-name" required>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select id="t-status">
+          <option>Not Started</option>
+          <option>In Progress</option>
+          <option>Completed</option>
+          <option>On Hold</option>
+          <option>Overdue</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Planned Start Date</label>
+          <input type="date" id="t-start">
+        </div>
+        <div class="field">
+          <label>Planned End Date</label>
+          <input type="date" id="t-end">
+        </div>
+      </div>
+      <div class="field">
+        <label>Members</label>
+        <select id="t-members">
+          <option value="">Unassigned</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Task Dependency</label>
+        <input type="text" id="t-dependency" placeholder="e.g. 1.1, 2.0">
+      </div>
+      <div class="field">
+        <label>Note / Action Items</label>
+        <textarea id="t-note"></textarea>
+      </div>
+    </form>
+  </div>
+  <div class="task-panel-footer">
+    <button class="btn btn-outline" style="color:var(--text-2);border-color:var(--border);flex:1;" id="btnCancelTask">Cancel</button>
+    <button class="btn btn-dark" style="flex:1;" id="btnSaveTask">Save Task</button>
+  </div>
+</div>
+
+<input type="file" id="importFileInput" accept=".csv,.xlsx,.xls" style="display:none;">
+
+<script src="app.js"></script>
+</body>
+</html>
